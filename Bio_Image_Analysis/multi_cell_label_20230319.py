@@ -56,7 +56,6 @@ def main():
     folder = r"C:\Users\changfan\Downloads\1 DNA repair-20230319T175246Z-001\1 DNA repair\09182021\09182021\09182021 SETX KO WT"
     imageFiles = sorted([x for x in os.listdir(folder) if x.endswith("tif")])
     defaultRois = np.zeros((1, 1))
-    df = pd.DataFrame()
     for idx, imageFile in enumerate(imageFiles[:]):
         print(imageFile)
 
@@ -81,12 +80,12 @@ def main():
         temp = cv2.imread(os.path.join(folder, imageFile), cv2.IMREAD_UNCHANGED)
         for idy, roi in enumerate(defaultRois):
             # create roi folder
-            if not os.path.exists(os.path.join(folder, "ROI_{}".format(idy))):
-                os.makedirs(os.path.join(folder, "ROI_{}".format(idy)))
+            if not os.path.exists(os.path.join(folder, "cell_{}".format(idy+1))):
+                os.makedirs(os.path.join(folder, "cell_{}".format(idy+1)))
 
             x, y, w, h = roi
             cropImg = temp[y: y + h, x:x + w]
-            cv2.imwrite(os.path.join(folder, "ROI_{}".format(idy), "{}_{}.png".format(imageFile[:-4], idy)), cropImg)
+            cv2.imwrite(os.path.join(folder, "cell_{}".format(idy+1), "{}_cell_{}.tiff".format(imageFile[:-4], idy)), cropImg)
 
 
 if __name__ == "__main__":

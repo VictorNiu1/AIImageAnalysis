@@ -2,8 +2,6 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-import pandas as pd
-import seaborn as sns
 
 
 def overlay_plot(img, rois, filename="test.png"):
@@ -77,30 +75,18 @@ def main():
 
         if len(rois) > len(defaultRois):
             defaultRois = rois
-
-        brightness = np.zeros((len(defaultRois), 7))
-
-        for idy, roi in enumerate(defaultRois):
-            x, y, w, h = roi
-            cropImg = img[y: y + h, x:x + w]
-            brightness[idy, :] = np.array([idx, idy + 1, x, y, w, h, np.mean(cropImg)])
-        # np.savetxt("{}_signal.csv".format(imageFile[:-4]), brightness, delimiter=',',
-        #            header="fileIdx,rois,x,y,w,h,brightness")
-        tempDf = pd.DataFrame(data=brightness, columns=["fileIdx", "rois", "x", "y", "w", "h", "brightness"])
-        df = pd.concat([df, tempDf])
-        df.to_csv('result.csv', index=False)
-    # plt.figure(figsize=(20, 9))
-    # for index in range(13):
-    #     plt.subplot(3, 5, index + 1)
-    #     plt.plot(df[df['rois'] == index + 1]['fileIdx'], df[df['rois'] == index + 1]['brightness'], '-o')
-    #     plt.title('ROI_{}'.format(index+1))
-    #     plt.grid(True)
-    #     plt.tight_layout()
-    # plt.figure()
-    # sns.lineplot(data=df, x='fileIdx', y='brightness', hue='rois')
-    # # sns.boxplot(data=df, x='fileIdx', y='brightness', hue='rois')
-    # plt.show()
     np.savetxt("ROIs.csv", defaultRois, delimiter=',', header="x,y,w,h")
+
+    for idx, imageFile in enumerate(imageFiles[:]):
+        temp = cv2.imread(os.path.join(folder, imageFile), cv2.IMREAD_UNCHANGED)
+        for idy, roi in enumerate(defaultRois):
+            # create roi folder
+            if not os.path.exists(os.path.join(folder, "ROI_{}".format(idy))):
+                os.makedirs(os.path.join(folder, "ROI_{}".format(idy)))
+
+            x, y, w, h = roi
+            cropImg = temp[y: y + h, x:x + w]
+            cv2.imwrite(os.path.join(folder, "ROI_{}".format(idy), "{}_{}.png".format(imageFile[:-4], idy)), cropImg)
 
 
 if __name__ == "__main__":

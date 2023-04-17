@@ -1,8 +1,6 @@
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 import cv2
 import time
 import shutil

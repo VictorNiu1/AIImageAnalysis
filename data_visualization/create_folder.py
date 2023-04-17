@@ -1,17 +1,12 @@
 import os
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
 import cv2
+import numpy as np
 import time
 import shutil
 from datetime import datetime, timedelta
 from absl import app
 from absl import flags
 from absl import logging
-
-FLAGS = flags.FLAGS
 
 
 def makeFolder(folderName: str):

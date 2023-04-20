@@ -80,12 +80,13 @@ def main():
         temp = cv2.imread(os.path.join(folder, imageFile), cv2.IMREAD_UNCHANGED)
         for idy, roi in enumerate(defaultRois):
             # create roi folder
-            if not os.path.exists(os.path.join(folder, "cell_{}".format(idy+1))):
-                os.makedirs(os.path.join(folder, "cell_{}".format(idy+1)))
+            if not os.path.exists(os.path.join(folder, "cell_{}".format(idy + 1))):
+                os.makedirs(os.path.join(folder, "cell_{}".format(idy + 1)))
 
             x, y, w, h = roi
             cropImg = temp[y: y + h, x:x + w]
-            cv2.imwrite(os.path.join(folder, "cell_{}".format(idy+1), "{}_cell_{}.tiff".format(imageFile[:-4], idy)), cropImg)
+            cv2.imwrite(os.path.join(folder, "cell_{}".format(idy + 1), "{}_cell_{}.tiff".format(imageFile[:-4], idy)),
+                        cropImg)
 
 
 if __name__ == "__main__":

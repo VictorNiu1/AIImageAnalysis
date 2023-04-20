@@ -135,11 +135,15 @@ def main(argv):
     # save timeStamp, brightness result
     df = pd.DataFrame(timeStamp, columns=["Time"])
     df["signal"] = brightness
-    df.to_csv(os.path.join(destFolder, "{}_brightness_threshpercent_{}.csv".format(folderName.split("\\")[-1], threshPercentage)), index=False)
+    df.to_csv(os.path.join(destFolder,
+                           "{}_brightness_threshpercent_{}.csv".format(folderName.split("\\")[-1], threshPercentage)),
+              index=False)
 
     # generate brightness plot
     brightness_plot(brightness, timeStamp, title="{}".format(folderName.split("\\")[-1]),
-                    fileName=os.path.join(destFolder, "{}_brightness_threshpercent_{}.png".format(folderName.split("\\")[-1], threshPercentage)))
+                    fileName=os.path.join(destFolder,
+                                          "{}_brightness_threshpercent_{}.png".format(folderName.split("\\")[-1],
+                                          threshPercentage)))
 
     logging.info("================= Finish data analysis =================")
 

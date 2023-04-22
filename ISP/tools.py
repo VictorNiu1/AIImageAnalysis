@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from absl import logging
+import cv2
 
 
 def makeFolder(folderName: str):
@@ -58,3 +59,37 @@ def centroid(x: np.ndarray) -> np.double:
     logging.debug(f"numerator is {np.sum(x * (1 + np.arange(len(x))))}")
     logging.debug(f"denominator is {np.sum(x)}")
     return np.sum(x * (1 + np.arange(len(x)))) / np.sum(x)
+
+
+def cell_detection(img: np.ndarray, gaussianKernal: tuple = (3, 3), imgMin: int = 0, imgMax: int = 255, boxX=30,
+                   boxY=30):
+    """
+
+    :param img:
+    :param gaussianKernal:
+    :param imgMin:
+    :param imgMax:
+    :param boxX:
+    :param boxY:
+    :return:
+    """
+
+    # Gaussian blur to remove the hot/dark pixel
+    blur = cv2.GaussianBlur(img, gaussianKernal, 0)
+
+    # threshold
+    _, threshold = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    # Find contours
+    contours, _ = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    count = 0
+    result = np.zeros((100, 4))
+    for contour in contours:
+        # Obtain the bounding rectangle of the contour
+        x, y, w, h = cv2.boundingRect(contour)
+        # if w > boxX or h > boxY:
+        if w > boxX and h > boxY:
+            result[count, 0:6] = np.array([x, y, w, h])
+            count += 1
+    return np.uint16(result[:count - 1, :])

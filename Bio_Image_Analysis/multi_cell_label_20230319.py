@@ -74,7 +74,7 @@ def main():
 
         if len(rois) > len(defaultRois):
             defaultRois = rois
-    np.savetxt("ROIs.csv", defaultRois, delimiter=',', header="x,y,w,h")
+    np.savetxt("ROIs.csv", defaultRois, delimiter=',', header="x,y,w,h", comment="")
 
     for idx, imageFile in enumerate(imageFiles[:]):
         temp = cv2.imread(os.path.join(folder, imageFile), cv2.IMREAD_UNCHANGED)

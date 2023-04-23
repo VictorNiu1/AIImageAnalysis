@@ -21,6 +21,9 @@ flags.DEFINE_string('folder',
 
 def main(argv):
     global rois
+    plt.rcParams['font.size'] = '14'
+    style = 'seaborn-v0_8-darkgrid'
+    plt.style.use(style)
     folderName = FLAGS.folder
     destFolder = os.path.join(folderName, "output")
     tools.makeFolder(destFolder)
@@ -85,7 +88,8 @@ def main(argv):
         plt.ylabel("signal [DN]")
         plt.tight_layout()
     plt.tight_layout()
-    plt.show()
+    plt.savefig(os.path.join(folderName, "output", "brightness.png"), dpi=150)
+    plt.close()
 
 
 if __name__ == '__main__':

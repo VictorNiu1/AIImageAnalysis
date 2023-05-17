@@ -1,11 +1,12 @@
 import os
+import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 from absl import app
 from absl import flags
 from absl import logging
-from ISP import tools
+import tools
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('folder',
@@ -78,7 +79,7 @@ def main(argv):
             result[idy, idx + 1] = np.mean(np.ravel(cropImg))
             # logging.info("{}, {}, {:.3f}".format(fileName, idx, result[idy, idx]))
     header = "index,"
-    for index in range(len(fileNames)):
+    for index in range(len(rois)):
         header += "roi_{:0d},".format(index + 1)
     np.savetxt(os.path.join(destFolder, "brightness.csv"), result, delimiter=',', header=header, comments="")
     logging.info("save the roi signal to        -> {}".format(os.path.join(destFolder, "brightness.csv")))

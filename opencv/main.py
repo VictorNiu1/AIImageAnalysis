@@ -11,7 +11,7 @@ line_length = 45
 #line_length = 30
 
 # Specify the directory containing the files
-directory = 'Images after laser cutting for AI project\\1 DNA repair\\U2OS_53KO_5979GFP_FOV3'
+directory = 'Images after laser cutting for AI project/1 DNA repair/U2OS_53KO_5979GFP_FOV3'
 #directory = 'Images after laser cutting for AI project\\1 DNA repair\\U2OS_WT_5979GFP_FOV2'
 #directory = 'Images after laser cutting for AI project\\1 DNA repair\\U2OS_WT_5979GFP_FOV3'
 #directory = 'Images after laser cutting for AI project\\1 DNA repair\\09182021\\09182021 SETX KO 1A5'

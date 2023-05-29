@@ -1,0 +1,3 @@
+image_foldername,whether_to_generate_rois_data,whether_to_generate_brightness_data,whether_to_output_rois_png,whether_to_output_brightness_png,whether_to_display_rois,whether_to_display_brightness
+"data/101922 FOV5/Fluo4", 1, 1, 1, 1, 1, 1
+"data/1 DNA repair/U2OS_53KO_5979GFP_FOV3", 1, 1, 1, 1, 1, 1

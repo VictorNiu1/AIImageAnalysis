@@ -4,7 +4,7 @@ import cv2
 
 # Read tiff image
 #image = cv2.imread('09_06_22_14h08m_08s_ms024__E02U2OS_53KO_5979GFP.tif', cv2.IMREAD_UNCHANGED)
-image = cv2.imread('09_18_21_12h40m_33s_ms021__E03U2OS_SETX_KO_1A4.tif', cv2.IMREAD_UNCHANGED)
+image = cv2.imread('Images after laser cutting for AI project/1 DNA repair/09182021/09182021 SETX KO 1A5/09_18_21_12h40m_33s_ms021__E03U2OS_SETX_KO_1A4.tif', cv2.IMREAD_UNCHANGED)
 #image = cv2.imread('09_18_21_12h39m_32s_ms022__E02U2OS_SETX_KO_1A4.tif', cv2.IMREAD_UNCHANGED)
 
 #img = cv2.imread('09_06_22_14h09m_10s_ms024__E03U2OS_53KO_5979GFP.tif', cv2.IMREAD_UNCHANGED)

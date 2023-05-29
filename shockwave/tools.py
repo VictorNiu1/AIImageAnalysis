@@ -4,6 +4,7 @@ from absl import logging
 import cv2
 
 
+
 def makeFolder(folderName: str):
     """
     make folderName if not exist
@@ -61,8 +62,8 @@ def centroid(x: np.ndarray) -> np.double:
     return np.sum(x * (1 + np.arange(len(x)))) / np.sum(x)
 
 
-def cell_detection(img: np.ndarray, gaussianKernel: tuple = (3, 3), imgMin: int = 0, imgMax: int = 255, boxX=30,
-                   boxY=30):
+def cell_detection(img: np.ndarray, gaussianKernel: tuple = (3, 3), imgMin: int = 0, imgMax: int = 255, boxX=25,
+                   boxY=25):
     """
     :param img:
     :param gaussianKernel:

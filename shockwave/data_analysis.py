@@ -7,14 +7,14 @@ from absl import app
 from absl import flags
 from absl import logging
 import tools
+import config
+from PIL import Image
 
 FLAGS = flags.FLAGS
-flags.DEFINE_string('folder',
-                    r'C:\Users\changfan\Documents\GitHub\AIImageAnalysis\data\101922 FOV5\Fluo4',
-                    'Stuart SFR raw image filename')
+config_items = config.load()
 
 
-def main(argv):
+def folder_analysis(argv, config_item):
     global rois
     plt.rcParams['font.size'] = '14'
     style = 'seaborn-v0_8-darkgrid'
@@ -49,8 +49,9 @@ def main(argv):
 
     # roi detection
     rois = tools.cell_detection(img)
-    np.savetxt(os.path.join(destFolder, "ROIs.csv"), rois, delimiter=',', header="x,y,w,h", comments="")
-    logging.info("save the roi coordinator to   -> {}".format(os.path.join(destFolder, "ROIs.csv")))
+    if config_item['whether_to_generate_rois_data']:
+        np.savetxt(os.path.join(destFolder, "ROIs.csv"), rois, delimiter=',', header="x,y,w,h", comments="")
+        logging.info("save the roi coordinator to   -> {}".format(os.path.join(destFolder, "ROIs.csv")))
 
     # logging.info(rois)
     rows, cols = img.shape
@@ -64,8 +65,10 @@ def main(argv):
         img = cv2.putText(img2, text="Roi_{:02d}".format(index + 1), org=(roi[0], roi[1] - 10),
                           fontFace=cv2.FONT_HERSHEY_TRIPLEX,
                           fontScale=.4, color=(0, 255, 0), thickness=1)
-    cv2.imwrite(os.path.join(destFolder, "roi.png"), img)
-    logging.info("save the roi image to         -> {}".format(os.path.join(destFolder, "roi.png")))
+    if config_item['whether_to_output_rois_png']:
+        cv2.imwrite(os.path.join(destFolder, "roi.png"), img)
+        logging.info("save the roi image to         -> {}".format(os.path.join(destFolder, "roi.png")))
+
 
     logging.info("{} calculate the roi signal on each frame {}".format(50 * "-", 32 * "-"))
     # calculate the brightness on each roi and frame
@@ -81,8 +84,9 @@ def main(argv):
     header = "index,"
     for index in range(len(rois)):
         header += "roi_{:0d},".format(index + 1)
-    np.savetxt(os.path.join(destFolder, "brightness.csv"), result, delimiter=',', header=header, comments="")
-    logging.info("save the roi signal to        -> {}".format(os.path.join(destFolder, "brightness.csv")))
+    if config_item['whether_to_generate_brightness_data']:
+        np.savetxt(os.path.join(destFolder, "brightness.csv"), result, delimiter=',', header=header, comments="")
+        logging.info("save the roi signal to        -> {}".format(os.path.join(destFolder, "brightness.csv")))
     # plot brightness on each roi
     row = 4
     col = int(np.ceil(len(rois) / row))
@@ -100,10 +104,65 @@ def main(argv):
         plt.ylabel("signal [DN]")
         plt.tight_layout()
     plt.tight_layout()
-    plt.savefig(os.path.join(folderName, "output", "brightness.png"), dpi=150)
-    plt.close()
-    logging.info("save the shock wave image to -> {}".format(os.path.join(folderName, "output", "brightness.png")))
+    if config_item['whether_to_output_brightness_png']:
+        plt.savefig(os.path.join(folderName, "output", "brightness.png"), dpi=150)
+        logging.info("save the shock wave image to -> {}".format(os.path.join(folderName, "output", "brightness.png")))
+
     logging.info("{} Finish image analysis {}".format(49 * "=", 49 * "="))
+    plt.close()
+
+
+def main(argv):
+    global FLAGS, config_items
+    for c in config_items:
+        print(c)
+        #flags.DEFINE_string('folder',
+        #                    r'C:\Users\changfan\Documents\GitHub\AIImageAnalysis\data\101922 FOV5\Fluo4',
+        #                    'Stuart SFR raw image filename')
+        flags.DEFINE_string('folder',
+                            #r'data/101922 FOV5/Fluo4',
+                            c['image_foldername'],
+                            'Stuart SFR raw image filename')
+        folder_analysis(argv, c)
+
+        num_pngs_to_display = 0
+        if c['whether_to_display_rois']:
+            num_pngs_to_display += 1
+        if c['whether_to_display_brightness']:
+            num_pngs_to_display += 1
+        
+        if num_pngs_to_display > 0:
+            # Create a figure with up to two subplots
+            fig, axes = plt.subplots(1, num_pngs_to_display)
+            
+
+            if c['whether_to_display_rois']:
+                # Load the ROI image
+                roi = Image.open(os.path.join(c['image_foldername'], "output", "roi.png"))
+                # Plot the image
+                if num_pngs_to_display>1:
+                    axes[0].imshow(roi)
+                    axes[0].axis('off')
+                else:
+                    axes.imshow(roi)
+                    axes.axis('off')
+
+            if c['whether_to_display_brightness']:
+                # Load the Brightness image
+                brightness = Image.open(os.path.join(c['image_foldername'], "output", "brightness.png"))
+                # Plot the image
+                if num_pngs_to_display>1:
+                    axes[1].imshow(brightness)
+                    axes[1].axis('off')
+                else:
+                    axes.imshow(brightness)
+                    axes.axis('off')
+
+            # Adjust the spacing between subplots
+            plt.tight_layout()
+
+            # Display the figure
+            plt.show()
 
 
 if __name__ == '__main__':

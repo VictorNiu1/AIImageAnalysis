@@ -2,6 +2,7 @@
 Python script to cropt multiple cells in order to run the Line Detection Algorithm.
 ## Get help
 Go to Anaconda Navigator and launch Terminal. Navigate to the file Laser_Line_Detection. 
+
 Example: cd C:\Users\hongy\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection
 
 Type: python cropCells.py --help 

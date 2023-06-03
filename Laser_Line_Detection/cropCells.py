@@ -5,11 +5,12 @@ import os
 import glob
 import matplotlib.pyplot as plt
 from absl import app
+from absl import logging
 from absl import flags
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('image_input_folder', r"C:\Victor\AIImageAnalysis\Images after laser cutting for AI project\1 DNA repair\04112023 Tong KO 5787 5713\04112023 Tong KO 5787 5713\Dish1 KO 5713\FOV4 6 cells 50mW", 'Path to the folder containing the TIFF files')
+flags.DEFINE_string('image_input_folder', r"C:\Users\hongy\OneDrive\Documents\GitHub\AIImageAnalysis\Images after laser cutting for AI project\1 DNA repair\04112023 Tong KO 5787 5713\04112023 Tong KO 5787 5713\Dish1 KO 5713\FOV4 6 cells 50mW", 'Path to the folder containing the TIFF files')
 flags.DEFINE_string('image_output_folder', r'C:\temp\8', 'Path to the folder where the output will be saved')
 flags.DEFINE_integer('diameter', 120, 'Custom diameter value (in pixels) used for the cellpose model')
 
@@ -44,6 +45,7 @@ def save_cropped_cells(image, masks, image_output_folder, image_path, prefix='ce
         image_name = os.path.splitext(os.path.basename(image_path))[0]
         tiff.imwrite(os.path.join(cell_image_output_folder, f'{image_name}.tiff'), cropped_cell)
 
+        logging.info(f'Saved cropped cell {prefix}_{i} from {image_path}')
 
 def draw_cell_indices(mask_overlay, masks):
     num_cells = masks.max()
@@ -63,6 +65,7 @@ def main(argv):
     image_output_folder = FLAGS.image_output_folder
 
     image_paths = get_tiff_files(image_input_folder)
+    logging.info(f'Found {len(image_paths)} TIFF files in {image_input_folder}')
 
     model = models.Cellpose(gpu=True, model_type='cyto')
 
@@ -93,6 +96,8 @@ def main(argv):
         image = tiff.imread(image_path)
         save_cropped_cells(image, masks, image_output_folder, image_path)
 
+    logging.info('Cell detection and cropping completed.')
 
 if __name__ == "__main__":
+    logging.set_verbosity(logging.INFO)
     app.run(main)

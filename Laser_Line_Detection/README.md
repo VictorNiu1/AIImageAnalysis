@@ -56,14 +56,9 @@ Go to Anaconda Navigator and launch Terminal. Navigate to the file Laser_Line_De
 
 Example: cd C:\Users\hongy\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection
 
-Type: python cropCells.py --help 
+Type: python singleCellDetection.py --help 
 
 result:
-cropCells.py:16: UserWarning: Flag --image_input_folder has a non-None default value; therefore, mark_flag_as_required will pass even if flag is not specified in the command line!
-  flags.mark_flag_as_required('image_input_folder')
-cropCells.py:17: UserWarning: Flag --image_output_folder has a non-None default value; therefore, mark_flag_as_required will pass even if flag is not specified in the command line!
-  flags.mark_flag_as_required('image_output_folder')
-
 
        USAGE: cropCells.py [flags]
 flags:

@@ -1,0 +1,3 @@
+czi_file_name,actually_output_tiffs,tiff_file_name_format,max_num_frames_to_process
+Cell 104 Pre.czi,1,0,260
+Cell 104 Post.czi,1,0,260

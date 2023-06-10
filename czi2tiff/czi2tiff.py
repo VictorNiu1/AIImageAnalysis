@@ -68,11 +68,13 @@ def main(argv):
         sizeX = metadata_dict['ImageDocument']['Metadata']['Information']['Image']['SizeX']
         sizeY = metadata_dict['ImageDocument']['Metadata']['Information']['Image']['SizeY']
         num_channels = int(metadata_dict['ImageDocument']['Metadata']['Information']['Image']['SizeC'])
-        num_frames  = int(metadata_dict['ImageDocument']['Metadata']['Information']['Image']['SizeT']) + 1
+        num_frames  = int(metadata_dict['ImageDocument']['Metadata']['Information']['Image']['SizeT'])
         print("CZI Image Acquisition Started at: ", data_and_time)
         print("CZI Dimensions: ", "sizeX = ", sizeX, "; sizeY = ", sizeX, "; Number of Channels = ", num_channels, "; Number of Frames = ", num_frames)
         if actually_output_tiffs:
             image_data = czi_file.asarray()
+        if max_num_frames_to_process > num_frames:
+            max_num_frames_to_process = num_frames
 
         #if False:
         # Iterate over each frame and each channel
@@ -93,6 +95,7 @@ def main(argv):
             for m in md: #range(num_frames):
                 if num_frames_processed >= max_num_frames_to_process:
                     break
+
                 num_frames_processed += 1
                 # Read the channel data and extract the intended frame
                 if actually_output_tiffs:

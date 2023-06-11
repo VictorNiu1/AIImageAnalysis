@@ -61,12 +61,11 @@ def centroid(x: np.ndarray) -> np.double:
     return np.sum(x * (1 + np.arange(len(x)))) / np.sum(x)
 
 
-def cell_detection(img: np.ndarray, gaussianKernal: tuple = (3, 3), imgMin: int = 0, imgMax: int = 255, boxX=30,
+def cell_detection(img: np.ndarray, gaussianKernel: tuple = (3, 3), imgMin: int = 0, imgMax: int = 255, boxX=30,
                    boxY=30):
     """
-
     :param img:
-    :param gaussianKernal:
+    :param gaussianKernel:
     :param imgMin:
     :param imgMax:
     :param boxX:
@@ -75,7 +74,7 @@ def cell_detection(img: np.ndarray, gaussianKernal: tuple = (3, 3), imgMin: int 
     """
 
     # Gaussian blur to remove the hot/dark pixel
-    blur = cv2.GaussianBlur(img, gaussianKernal, 0)
+    blur = cv2.GaussianBlur(img, gaussianKernel, 0)
 
     # threshold
     _, threshold = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)

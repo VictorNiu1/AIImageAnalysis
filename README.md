@@ -120,3 +120,12 @@ python3 -m pip install opencv-python==4.7.0.72
 22. Then hit Select Python Interpretor and then click on UCSDAIProject
 23. Okay now click on the models folder and then click on the DDPG.py file
 24. Now click on the arrow in the upper right corner and watch it run in the terminal!
+
+
+## How to Run czi to tiff
+1. Download czi file and put it in your GitHub folder under AIImageAnalysis
+2. Open the csv file named "bpconfig_czi2tiff.csv" (changing the things in this csv file will change the output)
+3. Rename the first item to the name of the czi file
+4. Change second value to 1 so that it actually outputs the tiff files (1 means it actually outputs files, 0 means no output)
+5. 3rd value is for the formatting of the name of the file, if set to 0, 1, 2, or 3 the frame number will be at the start of the file name and 4, 5, 6, or 7 will put the frame number at the end. 0 and 4 would mean only the frame number is included, 1 and 5 would be frame number and duration, 2 and 6 would be only the frame number and date, and 3 and 7 would be the frame number as well as both the date and duration.
+6. go to czi2tiff.py and hit run!

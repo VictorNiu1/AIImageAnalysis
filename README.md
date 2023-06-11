@@ -124,8 +124,8 @@ python3 -m pip install opencv-python==4.7.0.72
 
 ## How to Run czi to tiff
 1. Download czi file and put it in your GitHub folder under AIImageAnalysis
-2. Open the csv file named "bpconfig_czi2tiff.csv" (changing the things in this csv file will change the output)
+2. Open the csv file named "bpconfig_czi2tiff.csv" (The first row of csv file describes each column of batch processing configuration. Each of the following rows configures one processing "job", changing which results in different output)
 3. Rename the first item to the name of the czi file
 4. Change second value to 1 so that it actually outputs the tiff files (1 means it actually outputs files, 0 means no output)
-5. 3rd value is for the formatting of the name of the file, if set to 0, 1, 2, or 3 the frame number will be at the start of the file name and 4, 5, 6, or 7 will put the frame number at the end. 0 and 4 would mean only the frame number is included, 1 and 5 would be frame number and duration, 2 and 6 would be only the frame number and date, and 3 and 7 would be the frame number as well as both the date and duration.
+5. 3rd value is for the formatting of the name of the file, if set to 0, 1, 2, or 3 the frame number will be at the start of the file name and 4, 5, 6, or 7 will put the frame number at the end. 0 and 4 would mean only the date-time without fractional seconds and frame number are included, 1 and 5 would be those plus duration of exposure, 2 and 6 would be the date-time with fractional seconds and frame number, and 3 and 7 would include date-time with fractional seconds, duration of exposure, and frame number.
 6. go to czi2tiff.py and hit run!

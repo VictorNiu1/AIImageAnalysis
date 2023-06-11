@@ -19,15 +19,37 @@ def main(argv):
     if tiff_file_name_format == 0:
         include_full_date_time_string_in_tiff_file_name = False
         include_duration_in_tiff_file_name = False
+        frame_number_at_end = False
     elif tiff_file_name_format == 1:
         include_full_date_time_string_in_tiff_file_name = False
         include_duration_in_tiff_file_name = True
+        frame_number_at_end = False
     elif tiff_file_name_format == 2:
         include_full_date_time_string_in_tiff_file_name = True
         include_duration_in_tiff_file_name = False
-    else:
+        frame_number_at_end = False
+    elif tiff_file_name_format == 3:
         include_full_date_time_string_in_tiff_file_name = True
         include_duration_in_tiff_file_name = True
+        frame_number_at_end = False
+    elif tiff_file_name_format == 4:
+        include_full_date_time_string_in_tiff_file_name = False
+        include_duration_in_tiff_file_name = False
+        frame_number_at_end = True
+    elif tiff_file_name_format == 5:
+        include_full_date_time_string_in_tiff_file_name = False
+        include_duration_in_tiff_file_name = True
+        frame_number_at_end = True
+    elif tiff_file_name_format == 6:
+        include_full_date_time_string_in_tiff_file_name = True
+        include_duration_in_tiff_file_name = False
+        frame_number_at_end = True
+    elif tiff_file_name_format == 7:
+        include_full_date_time_string_in_tiff_file_name = True
+        include_duration_in_tiff_file_name = True
+        frame_number_at_end = True
+    
+    
     file_name_without_suffix = os.path.splitext(input_czi_file_name)[0]
     for k in possible_keywords:
         if k in file_name_without_suffix:
@@ -112,9 +134,15 @@ def main(argv):
                 tid = m['@Id']
                 dur = m['Duration']
                 if include_duration_in_tiff_file_name:
-                    output_file = os.path.join(output_dir, f'T{tid}_{date_string}_D{dur}.tif')
+                    if frame_number_at_end:
+                        output_file = os.path.join(output_dir, f'{date_string}_D{dur}_T{tid}.tif')
+                    else:
+                        output_file = os.path.join(output_dir, f'T{tid}_{date_string}_D{dur}.tif')
                 else:
-                    output_file = os.path.join(output_dir, f'T{tid}_{date_string}.tif')
+                    if frame_number_at_end:
+                        output_file = os.path.join(output_dir, f'{date_string}_T{tid}.tif')
+                    else:
+                        output_file = os.path.join(output_dir, f'T{tid}_{date_string}.tif')
                                            
                 # Save the channel image as TIFF
                 if actually_output_tiffs:

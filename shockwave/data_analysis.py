@@ -41,6 +41,21 @@ def main(argv):
     temp = cv2.imread(os.path.join(folderName, fileName), -1)
     img = cv2.normalize(temp, None, 0, 255, cv2.NORM_MINMAX, cv2.CV_8U)
     masks = tools.detect_cells(img, diameter=120, model=models.Cellpose(model_type="cyto"))
+    cellInfo = tools.cell_info(masks, temp)
+
+    font = {'family': 'serif',
+            'color': 'darkred',
+            'weight': 'normal',
+            'size': 16,
+            }
+    plt.figure(figsize=(8, 8))
+    plt.imshow(masks, cmap="gray")
+    for idx, cell in enumerate(cellInfo):
+        plt.text(cell[1], cell[2], "roi_{}".format(idx),  fontdict=font)
+    plt.title(fileName)
+    plt.tight_layout()
+    plt.savefig(os.path.join(destFolder, "mask.png"), dpi=150)
+    plt.close()
     num_cells = masks.max()
     result = pd.DataFrame()
     for idx, fileName in enumerate(fileNames[:]):
@@ -51,7 +66,7 @@ def main(argv):
         df = pd.DataFrame()
         df['index'] = [idx]
         df['background'] = [background]
-        for roiIdx in range(1, num_cells):
+        for roiIdx in range(0, num_cells):
             logging.debug("{}".format(roiIdx))
             mask = (masks == roiIdx)
             mask = mask.astype(int)

@@ -87,7 +87,7 @@ def cell_info(masks: np.ndarray, img: np.ndarray) -> np.ndarray:
         locations[i - 1, 0] = i
         locations[i - 1, 1] = centroid(xMean)
         locations[i - 1, 2] = centroid(yMean)
-        locations[i - 1, 3] = np.sum(img*mask)/np.sum(mask)-np.min(np.ravel(img))
+        locations[i - 1, 3] = np.sum(img * mask) / np.sum(mask) - np.min(np.ravel(img))
         locations[i - 1, 4] = np.min(np.ravel(img))
         locations[i - 1, 5] = xmin
         locations[i - 1, 6] = ymin
@@ -137,63 +137,128 @@ def peak_val(dataIn: np.ndarray) -> np.ndarray:
     return np.max(np.ravel(dataIn))
 
 
-def full_width_half_maximum(dataIn: np.ndarray) -> np.ndarray:
+def full_width_half_maximum(dataIn: np.ndarray) -> tuple:
+    """
+
+    :param dataIn:
+    :return:
+    """
+
+    # set default value
+    idxMax = 0
+    rightLinearFit = 0
+    leftLinearFit = 0
+
+    # index of max
     idxMax = np.argmax(dataIn)
+    logging.debug("argmax is {}".format(idxMax))
+    logging.debug("max is is {}".format(dataIn[idxMax]))
+
+    # half maximum value
     halfMax = dataIn[idxMax] / 2
-    left = (dataIn[:idxMax - 1] >= halfMax)
-    right = (dataIn[idxMax + 1:] >= halfMax)
-    print("sum of left is {}".format(np.sum(left)))
-    print("sum of right is {}".format(np.sum(right)))
-    leftIdx = 0
-    rightIdx = 0
-    if np.sum(left) == 0:
-        # print(" left=0 index is {}".format(idxMax-1))
-        leftIdx = idxMax - 1
-    if np.sum(left) > 0 & np.sum(left) < len(dataIn[:idxMax - 1]):
-        # print(" left>0 index is {}".format((left * dataIn[:idxMax - 1] != 0).argmax(axis=0)))
-        leftIdx = (left * dataIn[:idxMax - 1] != 0).argmax(axis=0)
-    if np.sum(right) > 0 & np.sum(right) < len(dataIn[idxMax + 1:]):
-        # print(" right is {}".format(right * dataIn[idxMax + 1:]))
-        print(" right index is {}".format(
-            len(dataIn[idxMax + 1:]) - ((np.flipud(right * dataIn[idxMax + 1:])) != 0).argmax(axis=0)))
-        rightIdx = len(dataIn[idxMax + 1:]) - ((np.flipud(right * dataIn[idxMax + 1:])) != 0).argmax(axis=0)
-    if np.sum(right) == len(dataIn[idxMax + 1:]):
-        # print(" right index is {}".format(len(dataIn[idxMax + 1:])))
-        rightIdx = len(dataIn[idxMax + 1:])
-    leftLinearFit = linear_fit([dataIn[leftIdx], leftIdx], [dataIn[leftIdx - 1], leftIdx - 1], halfMax)
-    rightLinearFit = linear_fit([dataIn[idxMax + rightIdx], idxMax + rightIdx],
-                                [dataIn[idxMax + rightIdx - 1], idxMax + rightIdx - 1], halfMax)
-    # return rightLinearFit - leftLinearFit
-    # print("width is {}".format(rightLinearFit-leftLinearFit))
-    # plt.figure(figsize=(12, 3))
-    # plt.subplot(131)
-    # plt.plot(dataIn, '-o')
-    # plt.plot(halfMax * np.ones(len(dataIn), ), '-r', lw=2)
-    # plt.grid()
-    # plt.subplot(132)
-    # plt.plot(left, '-o')
-    # # plt.plot(halfMax * np.ones(len(dataIn), ), '-r', lw=2)
-    # plt.grid()
-    # plt.subplot(133)
-    # plt.plot(right, '-o')
-    # # plt.plot(halfMax * np.ones(len(dataIn), ), '-r', lw=2)
-    # # plt.grid()
-    # plt.show()
+    logging.debug("half of max is is {}".format(halfMax))
 
-    # if (np.sum(left) > 0) & (np.sum(right) > 0):
-    #     leftIdx = (left != 0).argmax(axis=0)
-    #     rightIdx = (right != 0).argmax(axis=0)
-    #     print(leftIdx, rightIdx)
-    print("width is {}".format(rightLinearFit - leftLinearFit + idxMax))
-    return rightLinearFit - leftLinearFit + idxMax
-    # if (np.sum(left) == 0) & (np.sum(right) > 0):
-    #     print(right)
-    #     rightIdx = (right != 0).argmax(axis=0)
-    #     print("rightIdx is {}".format(rightIdx))
-    #     rightLinearFit = linear_fit([dataIn[rightIdx], rightIdx], [dataIn[rightIdx - 1], rightIdx - 1], halfMax)
-    #     return rightLinearFit-idxMax-.5
+    threshold = halfMax
+    mask = dataIn >= threshold
+    mask = mask.astype(int)
+    firstIndex = (mask != 0).argmax(axis=0)
+
+    rightSideData = dataIn[idxMax:]
+    if np.sum(rightSideData <= threshold):
+        secondIndex = rightSideData <= threshold
+        secondIndex = secondIndex.astype(int)
+        secondIndex = (secondIndex != 0).argmax(axis=0) + idxMax
+    else:
+        secondIndex = len(dataIn)
+
+    if firstIndex == idxMax:
+        leftLinearFit = idxMax
+    elif (firstIndex < idxMax) & (firstIndex > 0):
+        leftLinearFit = linear_fit(dataIn[firstIndex - 1:firstIndex + 1],
+                                   np.arange(firstIndex - 1, firstIndex + 1, 1), threshold)
+    else:
+        leftLinearFit = 0
+    logging.debug("leftLinearFit is {}".format(leftLinearFit))
+
+    if secondIndex == len(dataIn):
+        rightLinearFit = len(dataIn) - 1
+    elif secondIndex < len(dataIn):
+        rightLinearFit = linear_fit(dataIn[secondIndex - 2:secondIndex + 2],
+                                    np.arange(secondIndex - 2, secondIndex + 2, 1), threshold)
+    else:
+        rightLinearFit = idxMax
+    logging.debug("rightLinearFit is {}".format(rightLinearFit))
+
+    return idxMax, dataIn[idxMax], rightLinearFit - leftLinearFit, leftLinearFit, rightLinearFit
 
 
-def linear_fit(pt1, pt2, target):
-    p = np.polyfit([pt1[0], pt2[0]], [pt1[1], pt2[1]], 1)
+def timing_energy(dataIn: np.ndarray, threshold: float = 1.1) -> tuple:
+    """
+
+    :param dataIn:
+    :param threshold:
+    :return:
+    """
+
+    mask = dataIn >= threshold
+    threshDataIn = dataIn[mask]
+    energy = np.sum(threshDataIn)
+
+    # set default value
+    idxMax = 0
+    rightLinearFit = 0
+    leftLinearFit = 0
+
+    # index of max
+    idxMax = np.argmax(dataIn)
+
+    # set threshold
+    mask = dataIn >= threshold
+    mask = mask.astype(int)
+    firstIndex = (mask != 0).argmax(axis=0)
+    rightSideData = dataIn[idxMax:]
+
+    if np.sum(rightSideData <= threshold):
+        secondIndex = rightSideData <= threshold
+        secondIndex = secondIndex.astype(int)
+        secondIndex = (secondIndex != 0).argmax(axis=0) + idxMax
+    else:
+        secondIndex = len(dataIn)
+
+    if firstIndex == idxMax:
+        leftLinearFit = idxMax
+    elif (firstIndex < idxMax) & (firstIndex > 0):
+        leftLinearFit = linear_fit(dataIn[firstIndex - 1:firstIndex + 1],
+                                   np.arange(firstIndex - 1, firstIndex + 1, 1), threshold)
+    else:
+        leftLinearFit = 0
+    logging.debug("leftLinearFit is {}".format(leftLinearFit))
+
+    if secondIndex == len(dataIn):
+        rightLinearFit = len(dataIn) - 1
+    elif secondIndex < len(dataIn):
+        rightLinearFit = linear_fit(dataIn[secondIndex - 2:secondIndex + 2],
+                                    np.arange(secondIndex - 2, secondIndex + 2, 1), threshold)
+    else:
+        rightLinearFit = idxMax
+    logging.debug("rightLinearFit is {}".format(rightLinearFit))
+
+    if idxMax - leftLinearFit == 0:
+        riseTime = 1
+    else:
+        riseTime = idxMax - leftLinearFit
+    fallTime = rightLinearFit - idxMax
+
+    return energy, riseTime, fallTime, idxMax, leftLinearFit, rightLinearFit
+
+
+def linear_fit(x, y, target):
+    """
+    linear fit (x, y) and return y=m*target+b
+    :param x: np.ndarray
+    :param y: np.ndarray
+    :param target: np.ndarray
+    :return: np.ndarray
+    """
+    p = np.polyfit(x, y, 1)
     return np.polyval(p, target)

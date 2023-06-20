@@ -1253,3 +1253,44 @@ output/Cell 104 Pre/output/frame_1_overlay.png
 data/.DS_Store
 *.tif
 .DS_Store
+*.czi
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-12_T1_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-12_T2_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-17_T3_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-21_T4_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-26_T5_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-30_T6_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-34_T7_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-38_T8_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-43_T9_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-03--23-54-47_T10_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-02_T1_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-02_T2_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-07_T3_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-12_T4_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-16_T5_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-20_T6_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-24_T7_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-29_T8_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-33_T9_masks.csv
+output/Cell 104/AF488/masks_d120/2019-10-04--00-13-37_T10_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-12_T1_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-12_T2_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-17_T3_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-21_T4_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-26_T5_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-30_T6_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-34_T7_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-38_T8_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-43_T9_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-03--23-54-47_T10_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-02_T1_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-02_T2_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-07_T3_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-12_T4_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-16_T5_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-20_T6_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-24_T7_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-29_T8_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-33_T9_masks.csv
+output/Cell 104/AF488/masks_d240/2019-10-04--00-13-37_T10_masks.csv

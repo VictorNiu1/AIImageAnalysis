@@ -214,7 +214,7 @@ def main(argv):
             writer = csv.DictWriter(file, fieldnames = fields)
             writer.writeheader()
             #writer = csv.writer(file)
-            writer.writerows(frame_info)
+            writer.writerows(value)
 
 
 if __name__ == "__main__":

@@ -14,8 +14,8 @@ for i in range(image_arrays.shape[0]):
 #     fig = plt.figure(figsize=(6, 6), frameon=False)
 #     null_layer = np.zeros((image_arrays.shape[2], image_arrays.shape[3]))
     intensities = image_arrays[i, 0, :, :, 0]
-    scaled_intensities = intensities / 65535
-    all_image_layers.append(scaled_intensities)
+#     scaled_intensities = intensities / 65535
+#     all_image_layers.append(scaled_intensities)
 #     intensity_rgb_array = np.stack((null_layer, scaled_intensities, null_layer), axis=-1)
 #     np.save(f'./npy/npy_{i}.npy', scaled_intensities)
 #     ax = plt.Axes(fig, [0., 0., 1., 1.])

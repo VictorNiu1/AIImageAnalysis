@@ -1,4 +1,4 @@
-import cv2
+import cv2  
 import tifffile as tiff
 from cellpose import models, plot
 import os
@@ -10,8 +10,8 @@ from absl import flags
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('image_input_folder', r"C:\Users\hongy\OneDrive\Documents\GitHub\AIImageAnalysis\Images after laser cutting for AI project\1 DNA repair\04112023 Tong KO 5787 5713\04112023 Tong KO 5787 5713\Dish1 KO 5713\FOV4 6 cells 50mW", 'Path to the folder containing the TIFF files')
-flags.DEFINE_string('image_output_folder', r'C:\temp\8', 'Path to the folder where the output will be saved')
+flags.DEFINE_string('image_input_folder', r"C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results", 'Path to the folder containing the TIFF files')
+flags.DEFINE_string('image_output_folder', r'C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\output', 'Path to the folder where the output will be saved')
 flags.DEFINE_integer('diameter', 120, 'Custom diameter value (in pixels) used for the cellpose model')
 
 flags.mark_flag_as_required('image_input_folder')

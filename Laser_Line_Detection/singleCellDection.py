@@ -14,11 +14,16 @@ import glob
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string("imageDirectory",
-                     r"C:\Victor\AIImageAnalysis\Images after laser cutting for AI project\1 DNA repair\09182021\09182021\09182021 SETX KO 1A5\output\cell_19",
+                     r"C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\output\cell_9",
                       "Single DNA folder")
 
-flags.DEFINE_float('threshPercentage', 98, 'ThreshPercentage')
+
+
+flags.DEFINE_float('threshPercentage', 89, 'ThreshPercentage')
+flags.DEFINE_float('slopeDifference', 30, 'slopeDifference')
 flags.DEFINE_float('threshDistanceOfMaxBrightnessPoints', 30, 'ThreshDistanceOfMaxBrightnessPoints')
+
+
 
 flags.DEFINE_integer('exclusion_x', 0, 'exclusion x')
 flags.DEFINE_integer('exclusion_y', 0, 'exclusion y')
@@ -26,10 +31,10 @@ flags.DEFINE_integer('exclusion_width', 0, 'exclusion width')
 flags.DEFINE_integer('exclusion_height', 0, 'exclusion height')
 
 
-# flags.DEFINE_integer('exclusion_x', 70, 'exclusion x')
-# flags.DEFINE_integer('exclusion_y', 66, 'exclusion y')
-# flags.DEFINE_integer('exclusion_width', 30, 'exclusion width')
-# flags.DEFINE_integer('exclusion_height', 30, 'exclusion height')
+#flags.DEFINE_integer('exclusion_x', 62, 'exclusion x')
+#flags.DEFINE_integer('exclusion_y', 62, 'exclusion y')
+#flags.DEFINE_integer('exclusion_width', 60, 'exclusion width')
+#flags.DEFINE_integer('exclusion_height', 60, 'exclusion height')
 
 
 image_directory = ""
@@ -41,6 +46,8 @@ def main(argv):
     image_directory = FLAGS.imageDirectory
 
     print("FLAGS.imageDirectory: " + FLAGS.imageDirectory)
+    global slopeDifference
+    slopeDifference = FLAGS.slopeDifference
 
     global threshPercentage
     threshPercentage = FLAGS.threshPercentage
@@ -256,10 +263,11 @@ def reset_cut_line_for_all_files(imageFiles, max_brightness_file_index):
 
         point1 = np.array([base_file_max_brightness_x, base_file_max_brightness_y])
         point2 = np.array([max_brightness_x, max_brightness_y])
-
+        # Differences of slopes
         distance = np.linalg.norm(point2 - point1)
-        isSimiliarSlope = is_similiar_slope(currentLineSlope, max_brightness_line_slope, 30)
+        isSimiliarSlope = is_similiar_slope(currentLineSlope, max_brightness_line_slope, slopeDifference)
 
+        
         print(f'isSimiliarSlope:{str(isSimiliarSlope)}')
 
         if (distance > threshDistanceOfMaxBrightnessPoints or isSimiliarSlope == False):

@@ -53,7 +53,7 @@ The actor then performs differently based on the advice from the critic.
 
 ## How to Run the Code
 ### Installing Python/Anaconda/Packages (Windows)
-1. Install Anaconda (https://repo.anaconda.com/archive/Anaconda3-2022.10-MacOSX-arm64.pkg)
+1. Install Anaconda (https://www.anaconda.com/download)
 2. Open Anaconda Navigator (what you just installed)
 3. Click on "Environments" on the left side of the screen
 4. Click on "Create" at the Bottom left side of the screen

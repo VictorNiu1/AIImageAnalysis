@@ -14,13 +14,13 @@ import glob
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string("imageDirectory",
-                     r"C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\output\cell_9",
+                     r"C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\04112023 Tong KO 5787 5713\04112023 Tong KO 5787 5713\Dish2 KO 5787\FOV1 5 cells 50mW\output\cell_3",
                       "Single DNA folder")
 
 
 
-flags.DEFINE_float('threshPercentage', 89, 'ThreshPercentage')
-flags.DEFINE_float('slopeDifference', 30, 'slopeDifference')
+flags.DEFINE_float('threshPercentage', 83 , 'ThreshPercentage')
+flags.DEFINE_float('slopeDifference',  30, 'slopeDifference')
 flags.DEFINE_float('threshDistanceOfMaxBrightnessPoints', 30, 'ThreshDistanceOfMaxBrightnessPoints')
 
 

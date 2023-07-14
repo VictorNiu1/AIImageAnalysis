@@ -10,8 +10,8 @@ from absl import flags
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('image_input_folder', r"C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results", 'Path to the folder containing the TIFF files')
-flags.DEFINE_string('image_output_folder', r'C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\output', 'Path to the folder where the output will be saved')
+flags.DEFINE_string('image_input_folder', r"C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\04112023 Tong KO 5787 5713\04112023 Tong KO 5787 5713\Dish2 KO 5787\FOV1 5 cells 50mW", 'Path to the folder containing the TIFF files')
+flags.DEFINE_string('image_output_folder', r'C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\04112023 Tong KO 5787 5713\04112023 Tong KO 5787 5713\Dish2 KO 5787\FOV1 5 cells 50mW\output', 'Path to the folder where the output will be saved')
 flags.DEFINE_integer('diameter', 120, 'Custom diameter value (in pixels) used for the cellpose model')
 
 flags.mark_flag_as_required('image_input_folder')

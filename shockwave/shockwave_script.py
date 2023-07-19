@@ -143,7 +143,7 @@ def post_analysis(folderName: str, threshold: float):
     plt.rcParams['font.size'] = '14'
     style = 'seaborn-v0_8-darkgrid'
     plt.style.use(style)
-    fileName = r'output\final_brightness.csv'
+    fileName = os.path.join('output', 'final_brightness.csv')
     df = pd.read_csv(os.path.join(folderName, fileName))
     columns = df.columns
     logging.debug("columns are {}".format(columns))

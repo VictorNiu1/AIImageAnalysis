@@ -14,28 +14,14 @@ import glob
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string("imageDirectory",
-                     r"C:\Users\Victor\OneDrive\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\04112023 Tong KO 5787 5713\04112023 Tong KO 5787 5713\Dish2 KO 5787\FOV1 5 cells 50mW\output\cell_3",
+                     r"C:\Users\Victor\Documents\GitHub\AIImageAnalysis\Laser_Line_Detection\results\output\cell_5",
                       "Single DNA folder")
 
 
 
-flags.DEFINE_float('threshPercentage', 83 , 'ThreshPercentage')
+flags.DEFINE_float('threshPercentage', 95 , 'ThreshPercentage')
 flags.DEFINE_float('slopeDifference',  30, 'slopeDifference')
 flags.DEFINE_float('threshDistanceOfMaxBrightnessPoints', 30, 'ThreshDistanceOfMaxBrightnessPoints')
-
-
-
-flags.DEFINE_integer('exclusion_x', 0, 'exclusion x')
-flags.DEFINE_integer('exclusion_y', 0, 'exclusion y')
-flags.DEFINE_integer('exclusion_width', 0, 'exclusion width')
-flags.DEFINE_integer('exclusion_height', 0, 'exclusion height')
-
-
-#flags.DEFINE_integer('exclusion_x', 62, 'exclusion x')
-#flags.DEFINE_integer('exclusion_y', 62, 'exclusion y')
-#flags.DEFINE_integer('exclusion_width', 60, 'exclusion width')
-#flags.DEFINE_integer('exclusion_height', 60, 'exclusion height')
-
 
 image_directory = ""
 output_directory = ""
@@ -44,6 +30,18 @@ output_directory = ""
 def main(argv):
     global image_directory
     image_directory = FLAGS.imageDirectory
+
+    print(os.getcwd())  # prints the current working directory
+    print(os.listdir())  # prints all files in the current directory
+    # Load the CSV file
+
+    global exclusion_array
+
+    dataFrame  = pd.read_csv('Laser_Line_Detection/exclusion.csv')
+    exclusion_array = dataFrame.to_dict('records')
+
+    # for obj in array_of_objects:
+    #     print(obj['exclusion_x'], obj['exclusion_y'])
 
     print("FLAGS.imageDirectory: " + FLAGS.imageDirectory)
     global slopeDifference
@@ -60,11 +58,7 @@ def main(argv):
 
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
-
-
-    # Access flag values
-    print('exclusion width:', FLAGS.exclusion_width)
-    
+ 
 
     # Get a list of all files in the directory with a ".tif" extension
     file_list = [f for f in os.listdir(image_directory) if (f.endswith('.tif') or f.endswith('.tiff'))]
@@ -428,13 +422,17 @@ def find_max_brightness_file(file_list, imageFiles, time_stamps):
         imageFile = ImageFile(file_name, file_path)
         imageFiles.append(imageFile)
         img = cv2.imread(file_path, cv2.IMREAD_UNCHANGED)
+        img_excluded = np.copy(img)
+        for exclusion_obj in exclusion_array:
+            if exclusion_obj['exclusion_width'] > 0 and exclusion_obj['exclusion_height'] > 0:
+                img_excluded[exclusion_obj['exclusion_y']:exclusion_obj['exclusion_y'] + exclusion_obj['exclusion_height'], exclusion_obj['exclusion_x']:exclusion_obj['exclusion_x'] + exclusion_obj['exclusion_width']] = 0
 
-        # Create a copy of the image to exclude the rectangular region
-        if FLAGS.exclusion_x == 0 and FLAGS.exclusion_y == 0 and FLAGS.exclusion_width == 0 and FLAGS.exclusion_height == 0:
-            img_excluded = img
-        else:
-            img_excluded = np.copy(img)
-            img_excluded[FLAGS.exclusion_y:FLAGS.exclusion_y + FLAGS.exclusion_height, FLAGS.exclusion_x:FLAGS.exclusion_x + FLAGS.exclusion_width] = 0
+        # # Create a copy of the image to exclude the rectangular region
+        # if len(exclusion_array) == 1 and exclusion_array.exclusion_x == 0 and exclusion_array.exclusion_y[0] == 0 and exclusion_array.exclusion_width == 0 and exclusion_array.exclusion_height == 0:
+        #     img_excluded = img
+        # else:
+        #     img_excluded = np.copy(img)
+        #     img_excluded[exclusion_array.exclusion_y:exclusion_array.exclusion_y + exclusion_array.exclusion_height, exclusion_array.exclusion_x:exclusion_array.exclusion_x + exclusion_array.exclusion_width] = 0
             
         
         # Find the pixel with the maximum value in the image

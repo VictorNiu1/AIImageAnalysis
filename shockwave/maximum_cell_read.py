@@ -30,7 +30,7 @@ def main(argv):
     cellCounts = np.zeros(len(fileSns), )
     for idx, fileSn in enumerate(fileSns):
         cellCounts[idx] = len(df[df["file"] == fileSn])
-    maxIdx = np.argmax(cellCounts)
+        
     with open(os.path.join(folderName[:-12], "max_cell_frame.csv"), "w") as fp:
         fp.write("max_cell_frame\n")
         fp.write(str(maxIdx)+"\n")

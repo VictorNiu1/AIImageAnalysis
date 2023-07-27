@@ -11,8 +11,9 @@ import pandas as pd
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string("folder",
-                    r"C:\Victor\AIImageAnalysis\heartCellDetection\Dish1 50mW 2 cuts",
+                    r"C:\Users\Victor\Documents\GitHub\AIImageAnalysis\heartCellDetection\Heart Cell Project with Joe _ Bo\06132023 Adult Mice GFP BAG3 Tagged Heart Cells 100X PH3 75mW 800nm\FOV9 45 degree cut 4_40_53_PM",
                     "Folder name")
+flags.DEFINE_float('threshPercentage', 99.9 , 'ThreshPercentage')
 
 # Define global variables
 drawing = False
@@ -35,6 +36,7 @@ def plot_chart(image_path, output_directory):
 
     csvFileName = baseFolderName + "_" + str(threshPercentage) + ".csv"
     csvFilePath = output_directory + '\\' + csvFileName
+    
     print("csvFilePath: " + csvFilePath)
 
     df.to_csv(csvFilePath, index=False)
@@ -55,7 +57,7 @@ def plot_chart(image_path, output_directory):
     chartFileName = baseFolderName + "_" + str(threshPercentage) + "_brightness_chart.png"
     chartFilePath = output_directory + '\\' + chartFileName
     print("chartFilePath: " + chartFilePath)
-    plt.savefig(chartFilePath)
+    #plt.savefig(chartFilePath)
 
     # Display the plot
     plt.show()
@@ -110,9 +112,9 @@ def process_image_files(folder, laser_x1, laser_y1, laser_x2, laser_y2):
             #     cv2.imshow("mask 2", normalized)
             #     cv2.waitKey(0)
 
-            cv2.imshow("mask 2", normalized_img)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            #cv2.imshow("mask 2", normalized_img)
+            #cv2.waitKey(0)
+            #cv2.destroyAllWindows()
 
 def find_brightest_frame_file(folder):
     file_names = os.listdir(folder)
@@ -181,7 +183,7 @@ def main(argv):
     global time_stamps
     time_stamps = []
     global threshPercentage
-    threshPercentage = 99
+    threshPercentage = FLAGS.threshPercentage
 
     global normalized_img
     folder_path = FLAGS.folder
